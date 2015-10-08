@@ -31,9 +31,7 @@ function counterObj(){
 					}
 					
 					}, timerObj.interval);
-				} else {
-					return;
-				}
+				} 
 		},
 		stopTimer: function(timerObj){
 			if(timerObj.isRunning){
@@ -53,4 +51,11 @@ function counterObj(){
 	}
 }
 
+function pomodoro(){
+	return {
+		workTimer: timerObj(25),
+		breakTimer: timerObj(5),
+		countController: counterObj()
+	}
+}
 

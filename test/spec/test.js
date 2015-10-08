@@ -2,7 +2,7 @@
   'use strict';
 
 
-  describe('The catchup object holds the app data', function(){
+  describe('The catchup object holds the timer data', function(){
 
   	var catchup = timerObj(25);
 
@@ -25,7 +25,7 @@
   });
 
 
-  describe('The counter object should hold the app behavior',  function(){
+  describe('The counter object should hold the timer behavior',  function(){
 
       var counter = counterObj(),
           catchup = timerObj(25);
