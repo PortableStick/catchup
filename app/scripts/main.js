@@ -1,26 +1,25 @@
 function timerObj(duration){
 	return{
 		duration: duration,
-		timer: duration,
+		timer: duration * 60,
 		interval: 1000,
 		isRunning: false,
 		intervalHandle: null
 	};
 }
 
-var catchup = timerObj(25);
-
 function counterObj(){
 	return{
 		increment: function(timerObj){
-			timerObj.timer += 1;
+			timerObj.timer += 60;
 		},
 		decrement: function(timerObj){
-			timerObj.timer -= 1;
+			timerObj.timer -= 60;
 		},
 		startTimer: function(timerObj){
 			if(!timerObj.isRunning){
 				timerObj.isRunning = true;
+				console.log(timerObj.timer);
 				timerObj.intervalHandle = setInterval(function(){
 					if(timerObj.timer > 0){
 						timerObj.timer -= 1;
@@ -44,8 +43,14 @@ function counterObj(){
 				console.log("Timer isn't running!");
 				return;
 			}
+		},
+		formatTime: function(timerObj){
+			var minutes = Math.floor(timerObj.timer/60),
+				seconds = (timerObj.timer % 60) < 10 ? "0" + (timerObj.timer % 60) : timerObj.timer % 60;
+
+			return minutes + ":" + seconds; 
 		}
 	}
 }
 
-var counter = counterObj();
+
