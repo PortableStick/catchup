@@ -61,6 +61,8 @@
       expect(counter.formatTime(catchup)).to.equal('23:20');
       catchup.timer -= 82;
       expect(counter.formatTime(catchup)).to.equal('21:58');
+      catchup.timer = 344;
+      expect(counter.formatTime(catchup)).to.equal('05:44')
     });
 
 

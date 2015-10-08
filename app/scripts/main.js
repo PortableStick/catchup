@@ -43,7 +43,7 @@ function counterObj(){
 			}
 		},
 		formatTime: function(timerObj){
-			var minutes = Math.floor(timerObj.timer/60),
+			var minutes = (Math.floor(timerObj.timer/60)) < 10 ? "0" + Math.floor(timerObj.timer/60) : Math.floor(timerObj.timer/60),
 				seconds = (timerObj.timer % 60) < 10 ? "0" + (timerObj.timer % 60) : timerObj.timer % 60;
 
 			return minutes + ":" + seconds; 
