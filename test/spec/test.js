@@ -65,6 +65,10 @@
       expect(counter.formatTime(catchup)).to.equal('05:44')
     });
 
+    it('should have a method that resets the countdown timer', function(){
+      counter.resetTimer(catchup);
+      expect(catchup.timer).to.equal(25 * 60);
+    });
 
   });
 

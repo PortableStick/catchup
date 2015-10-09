@@ -30,8 +30,8 @@ function counterObj(){
 						console.log("Countdown complete");
 					}
 					
-					}, timerObj.interval);
-				} 
+				}, timerObj.interval);
+			} 
 		},
 		stopTimer: function(timerObj){
 			if(timerObj.isRunning){
@@ -41,6 +41,9 @@ function counterObj(){
 				console.log("Timer isn't running!");
 				return;
 			}
+		},
+		resetTimer: function(timerObj){
+			timerObj.timer = timerObj.duration * 60;
 		},
 		formatTime: function(timerObj){
 			var minutes = (Math.floor(timerObj.timer/60)) < 10 ? "0" + Math.floor(timerObj.timer/60) : Math.floor(timerObj.timer/60),
@@ -55,7 +58,7 @@ function pomodoro(){
 	return {
 		workTimer: timerObj(25),
 		breakTimer: timerObj(5),
-		countController: counterObj()
+		counterController: counterObj()
 	}
 }
 
