@@ -16,12 +16,18 @@ function counterObj(){
 		},
 		decrementMinutes: function(timerObj){
 			timerObj.timer -= 60;
+			if(timerObj.timer < 0){
+				timerObj.timer = 0;
+			}
 		},
 		incrementSeconds: function(timerObj){
 			timerObj.timer += 1;
 		},
 		decrementSeconds: function(timerObj){
 			timerObj.timer -= 1;
+			if(timerObj.timer < 0){
+				timerObj.timer = 0;
+			}
 		},
 		startTimer: function(timerObj, pendingTimer){
 			var _this = this;
@@ -72,6 +78,7 @@ function counterObj(){
 
 
 function pomodoro(){
+	var _this = this;
 	return{
 		workTimer: timerObj(.1, true),
 		breakTimer: timerObj(.05),
@@ -93,10 +100,77 @@ function pomodoro(){
 				this.counterController.stopTimer(this.currentTimer);
 			} else {
 				this.counterController.startTimer(this.currentTimer, this.pendingTimer);
+				this.updateDOM();
 			}
 		},
-		
+		updateDOM: function(){
+			var _this = this;
+			function updateWorkTimer(){
+				return function(){
+					$('#workTimer .timer').html(_this.counterController.formatTime(catchup.workTimer));
+						}
+			}
+
+			function updateBreakTimer(){
+				return function(){
+					$('#breakTimer .timer').html(_this.counterController.formatTime(catchup.breakTimer));
+						}
+			}
+
+			setInterval(updateBreakTimer(), 10);
+
+			setInterval(updateWorkTimer(),10);
+		},
+		setupDOM: function(){
+				var _this = this;
+
+				//set timers
+				$('#breakTimer .timer').html(_this.counterController.formatTime(_this.breakTimer));
+				$('#breakTimer .timer').html(_this.counterController.formatTime(_this.breakTimer));
+				$('#workTimer .timer').html(_this.counterController.formatTime(_this.workTimer));
+				$('#workTimer .timer').html(_this.counterController.formatTime(_this.workTimer));
+
+
+				//event handler declarations
+				function breakTimerDecrement(){
+					return function(){
+						_this.counterController.decrementMinutes(_this.breakTimer)
+						$('#breakTimer .timer').html(_this.counterController.formatTime(_this.breakTimer))
+					}
+				}
+
+				function breakTimerIncrement(){
+					return function(){
+						_this.counterController.incrementMinutes(_this.breakTimer)
+						$('#breakTimer .timer').html(_this.counterController.formatTime(_this.breakTimer))
+					}
+				}
+
+				function workTimerIncrement(){
+					return function(){
+						_this.counterController.incrementMinutes(_this.workTimer)
+						$('#workTimer .timer').html(_this.counterController.formatTime(_this.workTimer));
+					}
+				}
+
+				function workTimerDecrement(){
+					return function(){
+						_this.counterController.decrementMinutes(_this.workTimer)
+						$('#workTimer .timer').html(_this.counterController.formatTime(_this.workTimer));
+					}
+				}
+
+				//event handlers
+				$('#breakTimer .decrement').click(breakTimerDecrement());
+				$('#breakTimer .increment').click(breakTimerIncrement());
+				$('#workTimer .increment').click(workTimerIncrement());
+				$('#workTimer .decrement').click(workTimerDecrement());
+		}
+
 	}
 }
 
 var catchup = pomodoro();
+
+catchup.setupDOM();
+
