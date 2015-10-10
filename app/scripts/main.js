@@ -160,11 +160,24 @@ function pomodoro(){
 					}
 				}
 
+				function toggleTimerButton(){
+					return function(){
+						_this.toggleTimer();
+						console.log($(this).html());
+						if($(this).html() === "Start"){
+							$(this).html("Pause");
+						} else {
+							$(this).html("Start");
+						}
+					}
+				}
+
 				//event handlers
 				$('#breakTimer .decrement').click(breakTimerDecrement());
 				$('#breakTimer .increment').click(breakTimerIncrement());
 				$('#workTimer .increment').click(workTimerIncrement());
 				$('#workTimer .decrement').click(workTimerDecrement());
+				$('#toggleButton').click(toggleTimerButton());
 		}
 
 	}
