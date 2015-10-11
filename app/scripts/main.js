@@ -71,17 +71,16 @@ function counterObj(){
 			var minutes = (Math.floor(timerObj.timer/60)) < 10 ? "0" + Math.floor(timerObj.timer/60) : Math.floor(timerObj.timer/60),
 				seconds = (timerObj.timer % 60) < 10 ? "0" + (timerObj.timer % 60) : timerObj.timer % 60;
 
-			return minutes + ":" + seconds; 
+			return {minutes: minutes.toString(), seconds: seconds.toString()}; 
 		}
 	}
 }
 
-
 function pomodoro(){
-	var _this = this;
+
 	return{
-		workTimer: timerObj(.1, true),
-		breakTimer: timerObj(.05),
+		workTimer: timerObj(25, true),
+		breakTimer: timerObj(5),
 		counterController: counterObj(),
 		currentTimer: this.workTimer,
 		pendingTimer: this.breakTimer,
@@ -100,86 +99,74 @@ function pomodoro(){
 				this.counterController.stopTimer(this.currentTimer);
 			} else {
 				this.counterController.startTimer(this.currentTimer, this.pendingTimer);
-				this.updateDOM();
 			}
 		},
 		updateDOM: function(){
-			var _this = this;
-			function updateWorkTimer(){
-				return function(){
-					$('#workTimer .timer').html(_this.counterController.formatTime(catchup.workTimer));
-						}
-			}
+			var	workTime = this.counterController.formatTime(this.workTimer),
+				breakTime = this.counterController.formatTime(this.breakTimer);
 
-			function updateBreakTimer(){
-				return function(){
-					$('#breakTimer .timer').html(_this.counterController.formatTime(catchup.breakTimer));
-						}
-			}
-
-			setInterval(updateBreakTimer(), 10);
-
-			setInterval(updateWorkTimer(),10);
+				$('#workTimer .timer .minutes').html(workTime.minutes);
+				$('#workTimer .timer .seconds').html(workTime.seconds);
+				$('#breakTimer .timer .minutes').html(breakTime.minutes);
+				$('#breakTimer .timer .seconds').html(breakTime.seconds);
 		},
 		setupDOM: function(){
 				var _this = this;
 
-				//set timers
-				$('#breakTimer .timer').html(_this.counterController.formatTime(_this.breakTimer));
-				$('#breakTimer .timer').html(_this.counterController.formatTime(_this.breakTimer));
-				$('#workTimer .timer').html(_this.counterController.formatTime(_this.workTimer));
-				$('#workTimer .timer').html(_this.counterController.formatTime(_this.workTimer));
-
-
-				//event handler declarations
-				function breakTimerDecrement(){
-					return function(){
-						_this.counterController.decrementMinutes(_this.breakTimer)
-						$('#breakTimer .timer').html(_this.counterController.formatTime(_this.breakTimer))
-					}
-				}
-
-				function breakTimerIncrement(){
-					return function(){
-						_this.counterController.incrementMinutes(_this.breakTimer)
-						$('#breakTimer .timer').html(_this.counterController.formatTime(_this.breakTimer))
-					}
-				}
-
-				function workTimerIncrement(){
-					return function(){
-						_this.counterController.incrementMinutes(_this.workTimer)
-						$('#workTimer .timer').html(_this.counterController.formatTime(_this.workTimer));
-					}
-				}
-
-				function workTimerDecrement(){
-					return function(){
-						_this.counterController.decrementMinutes(_this.workTimer)
-						$('#workTimer .timer').html(_this.counterController.formatTime(_this.workTimer));
-					}
-				}
-
-				function toggleTimerButton(){
-					return function(){
-						_this.toggleTimer();
-						console.log($(this).html());
-						if($(this).html() === "Start"){
-							$(this).html("Pause");
-						} else {
-							$(this).html("Start");
-						}
-					}
-				}
+				//initialize timers
+				this.updateDOM();
 
 				//event handlers
-				$('#breakTimer .decrement').click(breakTimerDecrement());
-				$('#breakTimer .increment').click(breakTimerIncrement());
-				$('#workTimer .increment').click(workTimerIncrement());
-				$('#workTimer .decrement').click(workTimerDecrement());
-				$('#toggleButton').click(toggleTimerButton());
-		}
+				$('#toggleButton').click(function(){
+					_this.toggleTimer();
+					if($(this).html() === "Start"){
+						$(this).html("Pause");
+					} else {
+						$(this).html("Start");
+					}
+				});
 
+				$('#resetButton').click(function(){
+					_this.counterController.resetTimer(_this.breakTimer);
+					_this.counterController.resetTimer(_this.workTimer);
+				});
+
+				$('#incrementBreakTimer .minutes').click(function(){
+					_this.counterController.incrementMinutes(_this.breakTimer);
+					_this.updateDOM();
+				});
+				$('#decrementBreakTimer .minutes').click(function(){
+					_this.counterController.decrementMinutes(_this.breakTimer);
+					_this.updateDOM();
+				});
+				$('#incrementBreakTimer .seconds').click(function(){
+					_this.counterController.incrementSeconds(_this.breakTimer);
+					_this.updateDOM();
+				});
+				$('#decrementBreakTimer .seconds').click(function(){
+					_this.counterController.decrementSeconds(_this.breakTimer);
+					_this.updateDOM();
+				});
+
+				$('#incrementWorkTimer .minutes').click(function(){
+					_this.counterController.incrementMinutes(_this.workTimer);
+					_this.updateDOM();
+				});
+				$('#decrementWorkTimer .minutes').click(function(){
+					_this.counterController.decrementMinutes(_this.workTimer);
+					_this.updateDOM();
+				});
+				$('#incrementWorkTimer .seconds').click(function(){
+					_this.counterController.incrementSeconds(_this.workTimer);
+					_this.updateDOM();
+				});
+				$('#decrementWorkTimer .seconds').click(function(){
+					_this.counterController.decrementSeconds(_this.workTimer);
+					_this.updateDOM();
+				});
+
+				setInterval(_this.updateDOM.bind(_this), 100);
+		}
 	}
 }
 

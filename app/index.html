@@ -26,18 +26,38 @@
     
     <div class="container">
       <div class="row">
-        <div id="breakTimer" class="col-xs-4">
-          <span class="decrement">-</span>
-          <span class="timer">5:00</span>
-          <span class="increment">+</span>
+        <div id="incrementBreakTimer" class="col-xs-4 controls">
+          <span class="minutes">+ Minutes</span>
+          <span class="seconds">+ Seconds</span>
         </div>
-        <div id="workTimer" class="col-xs-8">
-          <span class="decrement">-</span>
-          <span class="timer">25:00</span>
-          <span class="increment">+</span>
+        <div id="incrementWorkTimer" class="col-xs-8 controls">
+          <span class="minutes">+ Minutes</span>
+          <span class="seconds">+ Seconds</span>
         </div>
       </div>
-      <button id="toggleButton" class="btn btn-default">Start</button>
+      <div class="row">
+        
+        <div id="breakTimer" class="col-xs-4">
+          <span class="timer"><span class="minutes">--load</span>:<span class="seconds">me--</span></span>
+        </div>
+        <div id="workTimer" class="col-xs-8">
+          <span class="timer"><span class="minutes">--load</span>:<span class="seconds">me--</span></span>
+        </div>
+      </div>
+      <div class="row">
+        <div id="decrementBreakTimer" class="col-xs-4 controls">
+          <span class="minutes">- Minutes</span>
+          <span class="seconds">- Seconds</span>
+        </div>
+        <div id="decrementWorkTimer" class="col-xs-8 controls">
+          <span class="minutes">- Minutes</span>
+          <span class="seconds">- Seconds</span>
+        </div>
+      </div>
+      <div class="button">
+        <button id="toggleButton" class="btn btn-default">Start</button>
+        <button id="resetButton" class="btn btn-default">Reset</button>
+      </div>
     </div>
 
     <!-- build:js scripts/vendor.js -->

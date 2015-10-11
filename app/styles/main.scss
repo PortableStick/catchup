@@ -13,14 +13,21 @@ body{
   margin-top: 150px;
   border: solid red 1px;
 
-  #breakTimer, #workTimer{
+  #breakTimer, #workTimer, .controls{
     text-align: center;
     font-size: 1.5em;
-    .increment, .decrement{
-      font-size: 2rem;
-      padding: 10px 20px;
-      cursor: pointer;
-    }
+    font-size: 2rem;
+    padding: 10px 20px;
+    cursor: pointer;
+    
+  }
+
+  .controls .minutes{
+    padding-right: 10px;
+  }
+
+  .controls .seconds{
+    padding-left: 10px;
   }
 
   #breakTimer{
@@ -31,6 +38,9 @@ body{
   #workTimer{
     border: solid green 1px;
     padding: 10px 20px;
+  }
+  .button{
+    text-align: center;
   }
 }
 
