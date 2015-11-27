@@ -11,17 +11,18 @@ body{
 
 .container {
   margin-top: 150px;
-  border: solid red 1px;
-
   #breakTimer, #workTimer, .controls{
     text-align: center;
-    font-size: 1.5em;
-    font-size: 2rem;
     padding: 10px 20px;
     cursor: pointer;
     
   }
-
+  #breakTimer, #workTimer{
+    font-size: 2.5em;
+  }
+  .minutes, .seconds, #toggleButton, #resetButton{
+    font-size: 2.3em;
+  }
   .controls .minutes{
     padding-right: 10px;
   }
@@ -31,12 +32,10 @@ body{
   }
 
   #breakTimer{
-    border: solid blue 1px;
     padding: 10px;
   }
 
   #workTimer{
-    border: solid green 1px;
     padding: 10px 20px;
   }
   .button{
