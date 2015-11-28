@@ -1,4 +1,4 @@
-// generated on 2015-10-07 using generator-gulp-webapp 1.0.3
+// generated on 2015-10-12 using generator-gulp-webapp 1.0.3
 import gulp from 'gulp';
 import gulpLoadPlugins from 'gulp-load-plugins';
 import browserSync from 'browser-sync';
@@ -38,7 +38,16 @@ const testLintOptions = {
   }
 };
 
-gulp.task('lint', lint('app/scripts/**/*.js'));
+const lintOptions = {
+  globals: {
+    "$": false
+  },
+  rules: {
+    "no-eval": 0
+  }
+};
+
+gulp.task('lint', lint('app/scripts/**/*.js', lintOptions));
 gulp.task('lint:test', lint('test/spec/**/*.js', testLintOptions));
 
 gulp.task('html', ['styles'], () => {
@@ -96,7 +105,7 @@ gulp.task('serve', ['styles', 'fonts'], () => {
     server: {
       baseDir: ['.tmp', 'app'],
       routes: {
-        '/bower_components': 'bower_components',
+        '/bower_components': 'bower_components'
       }
     }
   });
@@ -132,7 +141,7 @@ gulp.task('serve:test', () => {
       baseDir: 'test',
       routes: {
         '/bower_components': 'bower_components',
-        '/app': 'app'
+        '/app': 'app',
       }
     }
   });
