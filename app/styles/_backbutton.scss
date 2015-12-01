@@ -7,8 +7,7 @@ $padding            : 12px;
     font-size: 1.2em;
     margin-top: 15px;
     position: absolute;
-    top: 10px;
-    left: 10px;
+    top: 50px;
     &.light {
         background-color: #fff;
         color: #333;
@@ -22,11 +21,11 @@ $padding            : 12px;
     }
 
     &.sitLeft {
-        float: left;
+        left: 50px;
     }
 
     &.sitRight {
-        float: right;
+        right: 50px;
     }
 
     &:before {
