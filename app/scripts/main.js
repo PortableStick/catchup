@@ -1,5 +1,3 @@
-(function () {
-    'use strict';
 
     function timerObj(duration, isCurrent) {
         return {
@@ -14,30 +12,30 @@
 
     function counterObj() {
         return {
-            incrementMinutes: function (currentTimerObj) {
+            incrementMinutes: function(currentTimerObj) {
                 currentTimerObj.timer += 60;
             },
-            decrementMinutes: function (currentTimerObj) {
+            decrementMinutes: function(currentTimerObj) {
                 currentTimerObj.timer -= 60;
                 if (currentTimerObj.timer < 0) {
                     currentTimerObj.timer = 0;
                 }
             },
-            incrementSeconds: function (currentTimerObj) {
+            incrementSeconds: function(currentTimerObj) {
                 currentTimerObj.timer += 1;
             },
-            decrementSeconds: function (currentTimerObj) {
+            decrementSeconds: function(currentTimerObj) {
                 currentTimerObj.timer -= 1;
                 if (currentTimerObj.timer < 0) {
                     currentTimerObj.timer = 0;
                 }
             },
-            startTimer: function (currentTimerObj, pendingTimer) {
+            startTimer: function(currentTimerObj, pendingTimer) {
                 var context = this;
                 if (!currentTimerObj.isRunning && currentTimerObj.isCurrentTimer) {
                     currentTimerObj.isRunning = true;
-                    currentTimerObj.intervalHandle = (function () {
-                        return setInterval(function () {
+                    currentTimerObj.intervalHandle = (function() {
+                        return setInterval(function() {
                             if (currentTimerObj.timer > 0) {
                                 currentTimerObj.timer -= 1;
                             } else {
@@ -54,7 +52,7 @@
                     }(context));
                 }
             },
-            stopTimer: function (currentTimerObj) {
+            stopTimer: function(currentTimerObj) {
                 if (currentTimerObj.isRunning) {
                     clearInterval(currentTimerObj.intervalHandle);
                     currentTimerObj.isRunning = false;
@@ -62,13 +60,16 @@
                     return;
                 }
             },
-            resetTimer: function (currentTimerObj) {
+            resetTimer: function(currentTimerObj) {
                 currentTimerObj.timer = currentTimerObj.duration * 60;
             },
-            formatTime: function (currentTimerObj) {
+            formatTime: function(currentTimerObj) {
                 var minutes = (Math.floor(currentTimerObj.timer / 60)) < 10 ? '0' + Math.floor(currentTimerObj.timer / 60) : Math.floor(currentTimerObj.timer / 60),
-                seconds = (currentTimerObj.timer % 60) < 10 ? '0' + (currentTimerObj.timer % 60) : currentTimerObj.timer % 60;
-                return {minutes: minutes.toString(), seconds: seconds.toString()};
+                    seconds = (currentTimerObj.timer % 60) < 10 ? '0' + (currentTimerObj.timer % 60) : currentTimerObj.timer % 60;
+                return {
+                    minutes: minutes.toString(),
+                    seconds: seconds.toString()
+                };
             }
         };
     }
@@ -81,7 +82,7 @@
             counterController: counterObj(),
             currentTimer: this.workTimer,
             pendingTimer: this.breakTimer,
-            checkCurrent: function () {
+            checkCurrent: function() {
                 if (this.workTimer.isCurrentTimer) {
                     this.currentTimer = this.workTimer;
                     this.pendingTimer = this.breakTimer;
@@ -90,7 +91,7 @@
                     this.pendingTimer = this.workTimer;
                 }
             },
-            toggleTimer: function () {
+            toggleTimer: function() {
                 this.checkCurrent();
                 if (this.currentTimer.isRunning) {
                     this.counterController.stopTimer(this.currentTimer);
@@ -98,78 +99,77 @@
                     this.counterController.startTimer(this.currentTimer, this.pendingTimer);
                 }
             },
-            updateDOM: function () {
+            updateDOM: function() {
                 var workTime = this.counterController.formatTime(this.workTimer),
-                breakTime = this.counterController.formatTime(this.breakTimer);
+                    breakTime = this.counterController.formatTime(this.breakTimer);
 
                 $('#workTimer .timer .minutes').html(workTime.minutes);
                 $('#workTimer .timer .seconds').html(workTime.seconds);
                 $('#breakTimer .timer .minutes').html(breakTime.minutes);
                 $('#breakTimer .timer .seconds').html(breakTime.seconds);
             },
-            setupDOM: function () {
+            setupDOM: function() {
                 var context = this;
 
-                    //initialize timers
-                    this.updateDOM();
+                //initialize timers
+                this.updateDOM();
 
-                    //event handlers
-                    $('#toggleButton').click(function() {
-                        context.toggleTimer();
-                        if ($(this).html() === 'Start') {
-                            $(this).html('Pause');
-                        } else {
-                            $(this).html('Start');
-                        }
-                    });
+                //event handlers
+                $('#toggleButton').click(function() {
+                    context.toggleTimer();
+                    if ($(this).html() === 'Start') {
+                        $(this).html('Pause');
+                    } else {
+                        $(this).html('Start');
+                    }
+                });
 
-                    $('#resetButton').click(function() {
-                        context.counterController.resetTimer(context.breakTimer);
-                        context.counterController.resetTimer(context.workTimer);
-                    });
+                $('#resetButton').click(function() {
+                    context.counterController.resetTimer(context.breakTimer);
+                    context.counterController.resetTimer(context.workTimer);
+                });
 
-                    $('#incrementBreakTimer .minutes').click(function() {
-                        context.counterController.incrementMinutes(context.breakTimer);
-                        context.updateDOM();
-                    });
-                    $('#decrementBreakTimer .minutes').click(function() {
-                        context.counterController.decrementMinutes(context.breakTimer);
-                        context.updateDOM();
-                    });
-                    $('#incrementBreakTimer .seconds').click(function() {
-                        context.counterController.incrementSeconds(context.breakTimer);
-                        context.updateDOM();
-                    });
-                    $('#decrementBreakTimer .seconds').click(function() {
-                        context.counterController.decrementSeconds(context.breakTimer);
-                        context.updateDOM();
-                    });
+                $('#incrementBreakTimer .minutes').click(function() {
+                    context.counterController.incrementMinutes(context.breakTimer);
+                    context.updateDOM();
+                });
+                $('#decrementBreakTimer .minutes').click(function() {
+                    context.counterController.decrementMinutes(context.breakTimer);
+                    context.updateDOM();
+                });
+                $('#incrementBreakTimer .seconds').click(function() {
+                    context.counterController.incrementSeconds(context.breakTimer);
+                    context.updateDOM();
+                });
+                $('#decrementBreakTimer .seconds').click(function() {
+                    context.counterController.decrementSeconds(context.breakTimer);
+                    context.updateDOM();
+                });
 
-                    $('#incrementWorkTimer .minutes').click(function() {
-                        context.counterController.incrementMinutes(context.workTimer);
-                        context.updateDOM();
-                    });
-                    $('#decrementWorkTimer .minutes').click(function() {
-                        context.counterController.decrementMinutes(context.workTimer);
-                        context.updateDOM();
-                    });
-                    $('#incrementWorkTimer .seconds').click(function() {
-                        context.counterController.incrementSeconds(context.workTimer);
-                        context.updateDOM();
-                    });
-                    $('#decrementWorkTimer .seconds').click(function() {
-                        context.counterController.decrementSeconds(context.workTimer);
-                        context.updateDOM();
-                    });
+                $('#incrementWorkTimer .minutes').click(function() {
+                    context.counterController.incrementMinutes(context.workTimer);
+                    context.updateDOM();
+                });
+                $('#decrementWorkTimer .minutes').click(function() {
+                    context.counterController.decrementMinutes(context.workTimer);
+                    context.updateDOM();
+                });
+                $('#incrementWorkTimer .seconds').click(function() {
+                    context.counterController.incrementSeconds(context.workTimer);
+                    context.updateDOM();
+                });
+                $('#decrementWorkTimer .seconds').click(function() {
+                    context.counterController.decrementSeconds(context.workTimer);
+                    context.updateDOM();
+                });
 
-                    setInterval(context.updateDOM.bind(context), 100);
-                }
-            };
-        }
+                setInterval(context.updateDOM.bind(context), 100);
+            }
+        };
+    }
 
+    $(document).ready(function() {
         var catchup = pomodoro();
-
         catchup.setupDOM();
+    });
 
-
-    }());
